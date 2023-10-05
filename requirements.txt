@@ -1,0 +1,5 @@
+django-heroku
+gunicorn
+asgiref
+psycopg2
+whitenoise

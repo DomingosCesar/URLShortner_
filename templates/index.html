@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <title>URL Shortner</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <form action="{% url 'create' %}" method="post" id="post-form">
+                {% csrf_token %}
+                <h2>URL Shortner</h2>
+                <input type="url" name="link" id="link" placeholder="Enter URL here" class="url_">
+                <button type="submit" class="btn">Shortner</button>
+            </form>
+            <div class="url_shortner">
+                <!-- <input type="url" placeholder="URL will be showed here" name="uuid" readonly id="uid"> -->
+                <h2></h2>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script>
+        $(document).on('submit', '#post-form', function(e){
+            e.preventDefault();
+            $.ajax({
+                type : 'POST',
+                url : '/create',
+                data : {
+                    link : $('#link').val(),
+                    csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success: function(data){
+                    $('h2').html("localhost:8000/" + data)
+                }
+            });
+        });
+    </script>
+</body>
+</html>
